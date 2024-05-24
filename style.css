@@ -1,0 +1,13 @@
+body{
+    width: 40%
+  }
+   
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+   
+  main {
+    display: flex;
+    justify-content: space-between;
+  }
