@@ -2,6 +2,7 @@
 <html lang="pt-br">
  
 <head>
+  <script src="script.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora, JSI</title>
@@ -32,8 +33,8 @@
         <button><img src="imagens/full.png" width="20px"></button>
       </section>
       <section class="result">
-        <p>#Onde fica o cálculo#</p>
-        <p>#Onde fica o resultado#</p>
+        <p id="calculo"></p>
+        <p id="visor"></p>
       </section>
       <section class="buttons-one">
         <button>MC</button>
@@ -44,41 +45,41 @@
       </section>
       <section class="buttons-two">
         <section>
-          <button>%</button>
-          <button>CE</button>
-          <button>C</button>
-          <button><img src="imagens/backspace.png" width="20px"></button>
+          <button onclick="botaoPorcentagem()">%</button>
+          <button onclick="ce()">CE</button>
+          <button onclick="c()">C</button>
+          <button onclick="backspace()"><img src="imagens/backspace.png" width="20px"></button>
         </section>
         <section>
-          <button><img src="imagens/1x.png" width="20px"></button><!--<sup>1</sup>&frasl; &Xscr;-->
-          <button><img src="imagens/expo.png" width="20px"></button><!--&Xscr;<sup>²</sup>-->
-          <button><img src="imagens/raizquad.png" width="20px"></button><!--<sup>²</sup><span>√</span>
+          <button onclick="fracao()"><img src="imagens/1x.png" width="20px"></button><!--<sup>1</sup>&frasl; &Xscr;-->
+          <button onclick="potencia()"><img src="imagens/expo.png" width="20px"></button><!--&Xscr;<sup>²</sup>-->
+          <button onclick="raiz()"><img src="imagens/raizquad.png" width="20px"></button><!--<sup>²</sup><span>√</span>
           <span style="border-top: 0.5px solid black; ">&Xscr;</span>-->
-          <button>&divide;</button>
+          <button onclick="botaoDividir()">&divide;</button>
         </section>
         <section>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>&#215;</button>
+          <button onclick="imprimir(7)">7</button>
+          <button onclick="imprimir(8)">8</button>
+          <button onclick="imprimir(9)">9</button>
+          <button onclick="botaoMultiplicar()">&#215;</button>
         </section>
         <section>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>&#8722;</button>
+          <button onclick="imprimir(4)">4</button>
+          <button onclick="imprimir(5)">5</button>
+          <button onclick="imprimir(6)">6</button>
+          <button onclick="botaoSubtrair()">&#8722;</button>
         </section>
         <section>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>&#43;</button>
+          <button c>1</button>
+          <button onclick="imprimir(2)">2</button>
+          <button onclick="imprimir(3)">3</button>
+          <button onclick="botaoSomar()">&#43;</button>
         </section>
         <section>
           <button><img src="imagens/+-.png" width="20px"></button><!--+/&#8722;-->
-          <button>0</button>
+          <button onclick="imprimir(0)">0</button>
           <button>,</button>
-          <button>&#61;</button>
+          <button onclick="igual()">&#61;</button>
         </section>
       </section>
     </div>
