@@ -1,5 +1,6 @@
 let calculou = false;
 let idCalculo;
+let idCalculoAnterior;
 
 function botaoSomar() {
     visorToCalculo("+");
@@ -20,7 +21,11 @@ function botaoSubtrair() {
 }
 
 function subtrair(x, y) {
-    return x - y;
+    if(x < 0 && y < 0){
+        return x + y;
+    }
+
+    return x - (y);
 }
 
 function botaoMultiplicar() {
@@ -83,17 +88,19 @@ function fracao() {
 function botaoPorcentagem() {
     let calculo = document.getElementById('calculo');
     let conteudoCalculo = calculo.textContent;
-    let numeroCalculo = parseInt(conteudoCalculo);
+    let vetor = conteudoCalculo.split(" ");
 
     let visor = document.getElementById('visor');
     let conteudoVisor = visor.textContent;
+    conteudoVisor *= 1;
 
-    //dividir()
-    //CONTINUAR DAQUI
+    let resultado = porcentagem(vetor[0], conteudoVisor);
     
+    document.getElementById('calculo').innerText = conteudoCalculo + " " + resultado;
+    document.getElementById('visor').innerText = resultado;
 }
 
-function dividir(x, y) {
+function porcentagem(x, y) {
     return (x * (y / 100));
 }
 
@@ -103,6 +110,7 @@ function imprimir(x) {
 
     if (calculou) {
         conteudoVisor = x.toString();
+        calculou = false;
     } else {
         conteudoVisor += x.toString();
     }
@@ -158,24 +166,28 @@ function igual() {
     let resultado;
 
     switch (idCalculo) {
+        case 0:
+            resultado = recalculo(idCalculoAnterior);
+            break;
+
         case 1:
             resultado = somar(numeroCalculo, conteudoVisor);
-            calculou = false;
+            idCalculoAnterior = idCalculo;
             break;
 
         case 2:
             resultado = subtrair(numeroCalculo, conteudoVisor);
-            calculou = false;
+            idCalculoAnterior = idCalculo;
             break;
 
         case 3:
             resultado = multiplicar(numeroCalculo, conteudoVisor);
-            calculou = false;
+            idCalculoAnterior = idCalculo;
             break;
 
             case 4:
             resultado = dividir(numeroCalculo, conteudoVisor);
-            calculou = false;
+            idCalculoAnterior = idCalculo;
             break;
 
         default:
@@ -186,4 +198,57 @@ function igual() {
 
     document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
     document.getElementById('visor').innerText = resultado;
+}
+
+function recalculo(x){
+    let calculo = document.getElementById('calculo');
+    let conteudoCalculo = calculo.textContent;
+    let vetor = conteudoCalculo.split(" ");
+    let numero = vetor[2];
+
+    if(vetor[1] == "-"){
+        numero *= (-1);
+    } else {
+        numero *= 1;
+    }
+
+    let visor = document.getElementById('visor');
+    let conteudoVisor = visor.textContent;
+
+    conteudoVisor *= 1;
+
+    switch (x) {
+        case 1:
+            return somar(numero, conteudoVisor);
+
+        case 2:
+            return subtrair(numero, conteudoVisor);
+
+        case 3:
+            return multiplicar(numero, conteudoVisor);
+
+            case 4:
+            return dividir(numero, conteudoVisor);
+
+        default:
+            break;
+    }
+}
+
+function inverteSinal(){
+    let visor = document.getElementById('visor');
+    let conteudoVisor = visor.textContent;
+    let numeroVisor = parseInt(conteudoVisor);
+
+    numeroVisor *= -1;
+
+    document.getElementById('visor').innerText = numeroVisor;
+}
+
+function insereVirgula(){
+    let visor = document.getElementById('visor');
+    let conteudoVisor = visor.textContent;
+    let numeroVisor = parseFloat(conteudoVisor);
+
+    document.getElementById('visor').innerText = numeroVisor + ".";
 }
