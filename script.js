@@ -25,7 +25,7 @@ function subtrair(x, y) {
         return x + y;
     }
 
-    return x - (y);
+    return x - y;
 }
 
 function botaoMultiplicar() {
@@ -196,7 +196,14 @@ function igual() {
 
     idCalculo = 0;
 
-    document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+    let vetor = conteudoCalculo.split(" ");
+
+    if(vetor.length > 2){
+        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
+    } else {
+        document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+    }
+    
     document.getElementById('visor').innerText = resultado;
 }
 
