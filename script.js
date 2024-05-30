@@ -195,9 +195,18 @@ function igual() {
 
   idCalculo = 0;
 
-  document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
-  document.getElementById('visor').innerText = resultado;
   historico()
+  
+    let vetor = conteudoCalculo.split(" ");
+
+    if(vetor.length > 2){
+        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
+    } else {
+        document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+    }
+    
+    document.getElementById('visor').innerText = resultado;
+
 }
 
 function recalculo(x) {
