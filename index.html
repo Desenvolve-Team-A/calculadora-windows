@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
- 
+
 <head>
   <script src="script.js"></script>
   <meta charset="UTF-8">
@@ -8,88 +8,74 @@
   <title>Calculadora, JSI</title>
   <link rel="stylesheet" href="style.css">
 </head>
- 
+
 <body>
   <!--Header-->
   <header>
     <div class="header-initial">
-      <img src="imagens/icon.png" width="20px">
+      <img src="imagens/icon.png" alt="" width="20px">
       <span>Calculadora</span>
     </div>
     <div class="header-final">
-      <button>&ndash;</button>
-      <button>&EmptySmallSquare;</button>
-      <button>&#215;</button>
+      <button class="buttons-header">&ndash;</button>
+      <button class="buttons-header">&EmptySmallSquare;</button>
+      <button class="buttons-header-x">X</button>
     </div>
   </header>
- 
+
   <!--Main-->
- 
+
   <main>
     <div class="calc">
       <section class="menu">
-        <button><img src="imagens/menu.png" width="20px"></button>
-        <span>Padrão</span>
-        <button><img src="imagens/full.png" width="20px"></button>
+        <button class="botao-hamburguer"><img id="image" src="imagens/menu.png" alt="" width="20px"></button>
+        <span class="spam">Padrão</span>
+        <button class="botao-hamburguer"><img id="image2" src="imagens/full.png" alt="" width="20px"></button>
       </section>
       <section class="result">
-        <p id="calculo"></p>
-        <p id="visor"></p>
+        <p id="calculo" class="resultado"></p>
+        <p id="visor" class="resultado"></p>
       </section>
-      <section class="buttons-one">
-        <button>MC</button>
-        <button>MR</button>
-        <button>M+</button>
-        <button>M-</button>
-        <button>MS</button>
+      <section class="buttons">
+        <button class="buttons-one">MC</button>
+        <button class="buttons-one">MR</button>
+        <button class="buttons-one-click">M+</button>
+        <button class="buttons-one-click">M-</button>
+        <button class="buttons-one-click">MS</button>
       </section>
-      <section class="buttons-two">
-        <section>
-          <button onclick="botaoPorcentagem()">%</button>
-          <button onclick="ce()">CE</button>
-          <button onclick="c()">C</button>
-          <button onclick="backspace()"><img src="imagens/backspace.png" width="20px"></button>
-        </section>
-        <section>
-          <button onclick="fracao()"><img src="imagens/1x.png" width="20px"></button>
-          <button onclick="potencia()"><img src="imagens/expo.png" width="20px"></button>
-          <button onclick="raiz()"><img src="imagens/raizquad.png" width="20px"></button>
-  
-          <button onclick="botaoDividir()">&divide;</button>
-        </section>
-        <section>
-          <button onclick="imprimir(7)">7</button>
-          <button onclick="imprimir(8)">8</button>
-          <button onclick="imprimir(9)">9</button>
-          <button onclick="botaoMultiplicar()">&#215;</button>
-        </section>
-        <section>
-          <button onclick="imprimir(4)">4</button>
-          <button onclick="imprimir(5)">5</button>
-          <button onclick="imprimir(6)">6</button>
-          <button onclick="botaoSubtrair()">&#8722;</button>
-        </section>
-        <section>
-          <button onclick="imprimir(1)">1</button>
-          <button onclick="imprimir(2)">2</button>
-          <button onclick="imprimir(3)">3</button>
-          <button onclick="botaoSomar()">&#43;</button>
-        </section>
-        <section>
-          <button onclick="inverteSinal()"><img src="imagens/+-.png" width="20px"></button><!--+/&#8722;-->
-          <button onclick="imprimir(0)">0</button>
-          <button onclick="insereVirgula()">,</button>
-          <button onclick="igual()">&#61;</button>
-        </section>
-      </section>
+      <div class="botoes">
+        <button onclick="botaoPorcentagem()" class="buttons-two-color">%</button>
+        <button onclick="ce()" class="buttons-two-color">CE</button>
+        <button onclick="c()" class="buttons-two-color">C</button>
+        <button onclick="backspace()" class="buttons-two-color"><img class="image3" src="imagens/backspace-svgrepo-com.svg" alt="" ></button>
+        <button onclick="fracao()" class="buttons-two-color"><img src="imagens/1x.png" alt=""></button>
+        <button onclick="potencia()" class="buttons-two-color">x²</button>
+        <button onclick="raiz()" class="buttons-two-color"><img src="imagens/raizquad.png" alt=""></button>
+        <button onclick="botaoDividir()" class="buttons-two-color">&divide;</button>
+        <button onclick="imprimir(7)" class="buttons-two">7</button>
+        <button onclick="imprimir(8)" class="buttons-two">8</button>
+        <button onclick="imprimir(9)" class="buttons-two">9</button>
+        <button onclick="botaoMultiplicar()" class="buttons-two-color">&#215;</button>
+        <button onclick="imprimir(4)" class="buttons-two">4</button>
+        <button onclick="imprimir(5)" class="buttons-two">5</button>
+        <button onclick="imprimir(6)" class="buttons-two">6</button>
+        <button onclick="botaoSubtrair()" class="buttons-two-color">&#8722;</button>
+        <button onclick="imprimir(1)" class="buttons-two">1</button>
+        <button onclick="imprimir(2)" class="buttons-two">2</button>
+        <button onclick="imprimir(3)" class="buttons-two">3</button>
+        <button onclick="botaoSomar()" class="buttons-two-color">&#43;</button>
+        <button onclick="inverteSinal()" class="buttons-two"><img src="imagens/+-.png" alt="" width="20px"></button>
+        <button onclick="imprimir(0)" class="buttons-two">0</button>
+        <button onclick="insereVirgula()" class="buttons-two">,</button>
+        <button onclick="igual()" class="buttons-two-igual">=</button>
+      </div>
     </div>
     <div class="historic">
       <section>
-        <button id="hist" onclick="mostrarHistorico()">Histórico</button>
-        <button id="memo" onclick="">Memória</button>
+        <button id="hist" onclick="mostrarHistorico()" class="historico bottom">Histórico</button>
+        <button id="memo" class="memoria bottom">Memória</button>
       </section>
-      <section id="historico">
-      </section>
+      <section id="historico" class="sessao-historico"></section>
     </div>
   </main>
 </body>

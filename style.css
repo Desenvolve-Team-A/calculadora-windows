@@ -1,13 +1,183 @@
+* {
+  font-family: Arial, sans-serif;
+}
+
 body{
-    width: 40%
-  }
+  width: 100%;
+  background-color: hsl(0, 0%, 95%);
+  overflow-x: hidden;
+}
    
-  header {
-    display: flex;
-    justify-content: space-between;
-  }
+header{
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin: 5px 10px 5px 0;
+  height: auto;
+  width: auto;
+}
+
+.buttons-header, .buttons-header-x{
+  border: transparent;
+  padding: 5px 15px;
+  border-radius: 2px;
+}
+
+.buttons-header:hover {
+  background-color: rgba(203, 203, 203, 0.73);
+}
+
+.buttons-header-x:hover {
+  background-color: rgba(201, 47, 47, 0.847);
+  color: white;
+}
    
-  main {
-    display: flex;
-    justify-content: space-between;
-  }
+main {
+  background-color: hsl(0, 0%, 95%);
+  display: flex;
+}
+
+.menu {
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.image {
+  align-items: center;
+  width: 20px;
+}
+.image2 {
+  align-items: center;
+  width: 18px;
+}
+.image3 {
+  width: 10px;
+}
+
+.botao-hamburguer {
+  border-radius: 5px;
+  border: 1px transparent;
+  background-color: transparent;
+  padding: 5px;
+}
+.botao-hamburguer:hover{
+  background-color: rgba(224, 224, 224, 0.578);
+}
+.spam {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.calc {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.resultado {
+  display: block;
+  background-color: transparent;
+  border: transparent;
+  color: black;
+  margin-bottom: 5px;
+  padding: 2%;
+  width: 67vw;
+  font-size: 30px;
+}
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 5px 0;
+  width: 5vw;
+}
+
+.buttons-one {
+  border: transparent;
+  background-color: transparent;
+  color: gray;
+  font-weight: 400;
+  width: 5vw;
+}
+.buttons-one-click {
+  width: 5vw;
+  height: auto;
+  border: transparent;
+  border-radius: 3px;
+  padding: 10px 5px;
+}
+
+.buttons-one-click:hover {
+  background-color: rgba(224, 224, 224, 0.421);
+}
+
+.botoes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 70vw;
+  height: 70vh;
+  grid-gap: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgb(207, 207, 207);
+}
+
+.buttons-two {
+  border: transparent;
+  border-radius: 3px;
+  background-color: white;
+  font-size: 25px;
+  box-shadow: 0 2px 4px rgb(207, 207, 207);
+}
+.buttons-two-color {
+  border: transparent;
+  border-radius: 3px;
+  background-color:rgba(245, 245, 245, 0.895);
+  font-size: 20px;
+  box-shadow: 0 2px 4px rgb(207, 207, 207);
+}
+.buttons-two-igual {
+  border: transparent;
+  border-radius: 3px;
+  background-color: rgba(9, 9, 181, 0.862);
+  color: white;
+  font-size: 30px;
+  box-shadow: 0 2px 4px rgb(207, 207, 207);
+}
+.buttons-two:hover, .buttons-two-color:hover {
+  background-color: rgba(229, 229, 229, 0.315);
+}
+.buttons-two-igual:hover {
+  background-color: rgba(3, 3, 187, 0.771);
+}
+
+.botoes img {
+  width: 30px;
+}
+
+.historic {
+  margin-left: 10px;
+  width: 28%;
+}
+.historico, .memoria {
+  background-color: transparent;
+  border: transparent;
+  font-size: 15px;
+  padding: 0 10px ;
+  cursor: pointer;
+}
+
+.bottom {
+  border-bottom: 5px solid blue;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.historico:hover, .memoria:hover {
+  color: rgba(0, 0, 0, 0.69);
+}
+
+.sessao-historico {
+  font-size: 18px;
+}
+
+
