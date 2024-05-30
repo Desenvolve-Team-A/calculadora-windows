@@ -51,10 +51,10 @@
           <button onclick="backspace()"><img src="imagens/backspace.png" width="20px"></button>
         </section>
         <section>
-          <button onclick="fracao()"><img src="imagens/1x.png" width="20px"></button><!--<sup>1</sup>&frasl; &Xscr;-->
-          <button onclick="potencia()"><img src="imagens/expo.png" width="20px"></button><!--&Xscr;<sup>²</sup>-->
-          <button onclick="raiz()"><img src="imagens/raizquad.png" width="20px"></button><!--<sup>²</sup><span>√</span>
-          <span style="border-top: 0.5px solid black; ">&Xscr;</span>-->
+          <button onclick="fracao()"><img src="imagens/1x.png" width="20px"></button>
+          <button onclick="potencia()"><img src="imagens/expo.png" width="20px"></button>
+          <button onclick="raiz()"><img src="imagens/raizquad.png" width="20px"></button>
+  
           <button onclick="botaoDividir()">&divide;</button>
         </section>
         <section>
@@ -85,10 +85,11 @@
     </div>
     <div class="historic">
       <section>
-        <button>Histórico</button>
-        <button>Memória</button>
+        <button id="hist" onclick="mostrarHistorico()">Histórico</button>
+        <button id="memo" onclick="">Memória</button>
       </section>
-      <section><span>Ainda não há histórico.</span></section>
+      <section id="historico">
+      </section>
     </div>
   </main>
 </body>
