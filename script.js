@@ -1,6 +1,9 @@
 let calculou = false;
 let idCalculo;
 let idCalculoAnterior;
+let memoria = 0;
+let contexto;
+let adicionou = false;
 
 function botaoSomar() {
   visorToCalculo("+");
@@ -40,7 +43,7 @@ function multiplicar(x, y) {
 }
 
 function botaoDividir() {
-  visorToCalculo("/");
+  visorToCalculo("÷");
 
   calculou = true;
   idCalculo = 4;
@@ -106,15 +109,31 @@ function porcentagem(x, y) {
 
 function imprimir(x) {
   let visor = document.getElementById('visor');
+  let calculo = document.getElementById('calculo');
   let conteudoVisor = visor.textContent;
+  let conteudoCalculo = calculo.textContent;
 
-  if (calculou) {
-    conteudoVisor = x.toString();
-  } else {
-    conteudoVisor += x.toString();
-  }
+  const regex = /^\d{0,15}$/;
+    if (adicionou) {
+      visor.innerHTML = "";
+      conteudoVisor = "";
+      calculo.innerHTML= "";
+      adicionou = false;
+    }
+    
 
-  document.getElementById('visor').innerText = conteudoVisor;
+    if (regex.test(conteudoVisor)) {
+    if (calculou) {
+      conteudoVisor = x.toString();
+      calculou = false;
+    } else {
+      conteudoVisor += x.toString();
+
+    } 
+    
+    visor.innerHTML = conteudoVisor;
+  } 
+  
 }
 
 function visorToCalculo(simbolo) {
@@ -126,7 +145,7 @@ function visorToCalculo(simbolo) {
   document.getElementById('calculo').innerText = conteudoVisor;
 }
 
-function backspace() { //verificar
+function backspace() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
@@ -206,7 +225,8 @@ function igual() {
   }
 
   document.getElementById('visor').innerText = resultado;
-  historico()
+
+  historico();
 }
 
 function recalculo(x) {
@@ -259,11 +279,13 @@ function insereVirgula() {
   let conteudoVisor = visor.textContent;
   let numeroVisor = parseFloat(conteudoVisor);
 
-  document.getElementById('visor').innerText = numeroVisor + ".";
+  document.getElementById('visor').innerText = numeroVisor + ",";
 }
 
 
 function historico() {
+  mostrarHistorico();
+  adicionou = true;
   let calculo = document.getElementById('calculo');
   let visor = document.getElementById('visor');
 
@@ -271,8 +293,9 @@ function historico() {
   let conteudoVisor = visor.textContent;
 
   let span = document.getElementById('historico');
-  let novoHistorico = document.createElement('p');
+  let novoHistorico = document.createElement('div');
   let br = document.createElement('br');
+  novoHistorico.id = "nova-div"
 
   novoHistorico.appendChild(document.createTextNode(conteudoCalculo));
   novoHistorico.appendChild(br);
@@ -283,86 +306,104 @@ function historico() {
 }
 
 function mostrarHistorico() {
+  contexto = "h";
   let mostrar = document.getElementById('historico');
-  if (mostrar) {
-    mostrar.style.display = mostrar.style.display === 'none' ? 'block' : 'none';
-  }
-}
+  let ocultar = document.getElementById('memoria');
 
-let memoria = 0;
-let historicoMemoria = [];
+  mostrar.style.display = 'block';
+  ocultar.style.display = 'none';
+
+}
 
 function mostrarMemoria() {
-  let span = document.getElementById('historico');
-  span.innerHTML = "";
+  contexto = "m";
+  let mostrar = document.getElementById('memoria');
+  let ocultar = document.getElementById('historico');
 
-  historicoMemoria.forEach(function (entrada) {
-    let novoHistorico = document.createElement('p');
-    novoHistorico.appendChild(document.createTextNode(entrada));
-    span.appendChild(novoHistorico);
-  });
+
+  mostrar.style.display = 'block';
+  ocultar.style.display = 'none';
 }
-
-function limparMemoria() {
-  memoria = 0;
-
-}
-
-
-function recuperarMemoria() {
-  let visor = document.getElementById('visor');
-  visor.innerText = memoria;
-  console.log("Valor recuperado da memória: " + memoria);
-}
-
 
 function somarMemoria() {
   let visor = document.getElementById('visor');
   let valorAtual = parseFloat(visor.innerText);
 
-  let span = document.getElementById('historico');
-  let somar = document.createElement('p');
+  let span = document.getElementById('memoria');
+  let ultimaMemoria = span.firstChild;
 
-  somar.appendChild(document.createTextNode(valorAtual));
-  span.insertBefore(somar, span.firstChild);
 
-  somar.id = 'memoria';
-  
-  let novaMemoria = document.getElementById('memoria');
-  let memoriaAtual = parseFloat(novaMemoria.innerText);
-  console.log(typeof memoriaAtual);
+  if (ultimaMemoria == null) {
+    let somar = document.createElement('div');
+    somar.id = 'nova-div';
 
-  if (memoriaAtual != 0) {
-    memoriaFinal = parseFloat(memoriaAtual) + parseFloat(valorAtual);
-    somar.appendChild(document.createTextNode(memoriaFinal));
+    somar.textContent = valorAtual + memoria;
+    memoria += valorAtual;
+
     span.insertBefore(somar, span.firstChild);
   } else {
-
+    let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
+    ultimaMemoria.textContent = valorUltimaMemoria + valorAtual;
   }
-
 }
 
 function subtrairMemoria() {
   let visor = document.getElementById('visor');
   let valorAtual = parseFloat(visor.innerText);
-  memoria -= valorAtual;
-  historicoMemoria.push("M- " + valorAtual);
-  console.log("Subtraído da memória: " + valorAtual);
+
+
+  let span = document.getElementById('memoria');
+  let ultimaMemoria = span.firstChild;
+
+  let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
+
+  ultimaMemoria.textContent = valorUltimaMemoria - valorAtual;
 }
 
-
-function adicionarMemoria() {
-  let visor = document.getElementById('visor');
-  let valorAtual = parseFloat(visor.innerText);
-  memoria = valorAtual;
-  historicoMemoria.push(valorAtual);
-  console.log("Valor armazenado na memória: " + valorAtual);
-}
-
-
-function deletar() {
-  memoria = 0;
-  historicoMemoria = [];
+function deletarHistorico() {
   let span = document.getElementById('historico');
   span.innerHTML = "";
 }
+
+function deletarMemoria() {
+  let span = document.getElementById('memoria');
+  span.innerHTML = "";
+}
+function qualRetorna() {
+  if (contexto == "h") {
+    return deletarHistorico();
+  } else if (contexto == "m") {
+    return deletarMemoria();
+  }
+}
+
+function recuperarMemoria() { 
+  let visor = document.getElementById('visor');
+  let ultimaMemoria = document.getElementById('memoria').firstChild;
+
+  visor.textContent = ultimaMemoria.textContent;
+}
+
+function adicionarMemoria() {
+  let visor = document.getElementById('visor');
+
+  let span = document.getElementById('memoria');
+  let ultimaMemoria = span.firstChild;
+
+  let somar = document.createElement('div');
+  somar.id = 'nova-div';
+
+  somar.textContent = visor.textContent;
+  span.insertBefore(somar, span.firstChild);
+}
+
+
+
+
+
+
+
+
+
+
+

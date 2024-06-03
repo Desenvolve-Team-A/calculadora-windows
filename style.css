@@ -6,6 +6,7 @@
 body {
  background-color: hsl(0, 0%, 95%);
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 header {
@@ -39,7 +40,7 @@ main {
 }
 
 .aplicativo {
-  width: 70%;
+  width: 60%;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
@@ -52,6 +53,8 @@ main {
   flex-direction: row;
   align-items: center;
   margin-top: 5px;
+  width: 100%;
+
 }
 
 .image {
@@ -87,15 +90,16 @@ main {
 .calc {
   display: flex;
   justify-content: center;
+
   flex-direction: column;
-  width: 72%;
+  width: 70%;
 }
 
 .result {
   position: static;
   height: 85px;
-  width: 50%;
-  margin-left: 70%;
+  width: 94%;
+  text-align: right;
 }
 
 .result p {
@@ -113,6 +117,12 @@ main {
 #visor {
   font-weight: bold;
 }
+
+#calculo {
+  font-size: 13px !important;
+  color: grey;
+}
+
 
 .buttons {
   display: grid;
@@ -146,11 +156,12 @@ main {
 .botoes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  width: 90%;
-  height: 58vh;
+  width: 95%;
+  height: 54vh;
   grid-gap: 5px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgb(207, 207, 207);
+  
 }
 
 .buttons-two {
@@ -195,6 +206,19 @@ main {
   width: 30%;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+}
+
+#nova-div {
+  display: flex;
+  margin-top: 10px;
+  justify-content: right;
+  padding: 10px;
+}
+
+
+#nova-div:hover {
+  background-color: rgba(229, 229, 229, 0.315);
 }
 
 .historico,
@@ -223,8 +247,8 @@ main {
 
 .lixeira {
   display: flex;
-  align-items: end;
-  width: 25px;
+  justify-content: right !important;
+  width: 100%;
   margin-right: 10px;
 }
 
