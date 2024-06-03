@@ -25,7 +25,7 @@ function subtrair(x, y) {
     return x + y;
   }
 
-  return x - (y);
+  return x - y;
 }
 
 function botaoMultiplicar() {
@@ -195,18 +195,18 @@ function igual() {
 
   idCalculo = 0;
 
+
+
+  let vetor = conteudoCalculo.split(" ");
+
+  if (vetor.length > 2) {
+    document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
+  } else {
+    document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+  }
+
+  document.getElementById('visor').innerText = resultado;
   historico()
-  
-    let vetor = conteudoCalculo.split(" ");
-
-    if(vetor.length > 2){
-        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
-    } else {
-        document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
-    }
-    
-    document.getElementById('visor').innerText = resultado;
-
 }
 
 function recalculo(x) {
@@ -282,8 +282,87 @@ function historico() {
 
 }
 
-function mostrarHistorico(){
+function mostrarHistorico() {
   let mostrar = document.getElementById('historico');
-  let cliqueParaMostrar = mostrar.textContent;
-  cliqueParaMostrar;
+  if (mostrar) {
+    mostrar.style.display = mostrar.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+let memoria = 0;
+let historicoMemoria = [];
+
+function mostrarMemoria() {
+  let span = document.getElementById('historico');
+  span.innerHTML = "";
+
+  historicoMemoria.forEach(function (entrada) {
+    let novoHistorico = document.createElement('p');
+    novoHistorico.appendChild(document.createTextNode(entrada));
+    span.appendChild(novoHistorico);
+  });
+}
+
+function limparMemoria() {
+  memoria = 0;
+
+}
+
+
+function recuperarMemoria() {
+  let visor = document.getElementById('visor');
+  visor.innerText = memoria;
+  console.log("Valor recuperado da memória: " + memoria);
+}
+
+
+function somarMemoria() {
+  let visor = document.getElementById('visor');
+  let valorAtual = parseFloat(visor.innerText);
+
+  let span = document.getElementById('historico');
+  let somar = document.createElement('p');
+
+  somar.appendChild(document.createTextNode(valorAtual));
+  span.insertBefore(somar, span.firstChild);
+
+  somar.id = 'memoria';
+  
+  let novaMemoria = document.getElementById('memoria');
+  let memoriaAtual = parseFloat(novaMemoria.innerText);
+  console.log(typeof memoriaAtual);
+
+  if (memoriaAtual != 0) {
+    memoriaFinal = parseFloat(memoriaAtual) + parseFloat(valorAtual);
+    somar.appendChild(document.createTextNode(memoriaFinal));
+    span.insertBefore(somar, span.firstChild);
+  } else {
+
+  }
+
+}
+
+function subtrairMemoria() {
+  let visor = document.getElementById('visor');
+  let valorAtual = parseFloat(visor.innerText);
+  memoria -= valorAtual;
+  historicoMemoria.push("M- " + valorAtual);
+  console.log("Subtraído da memória: " + valorAtual);
+}
+
+
+function adicionarMemoria() {
+  let visor = document.getElementById('visor');
+  let valorAtual = parseFloat(visor.innerText);
+  memoria = valorAtual;
+  historicoMemoria.push(valorAtual);
+  console.log("Valor armazenado na memória: " + valorAtual);
+}
+
+
+function deletar() {
+  memoria = 0;
+  historicoMemoria = [];
+  let span = document.getElementById('historico');
+  span.innerHTML = "";
 }
