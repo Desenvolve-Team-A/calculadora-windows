@@ -11,9 +11,10 @@
 
 <body>
   <!--Header-->
+  <div class="aplicativo">
   <header>
     <div class="header-initial">
-      <img src="imagens/icon.png" alt="" width="20px">
+      <img src="imagens/icon.png" width="20px">
       <span>Calculadora</span>
     </div>
     <div class="header-final">
@@ -28,20 +29,20 @@
   <main>
     <div class="calc">
       <section class="menu">
-        <button class="botao-hamburguer"><img id="image" src="imagens/menu.png" alt="" width="20px"></button>
+        <button class="botao-hamburguer"><img id="image" src="imagens/menu.png" width="20px"></button>
         <span class="spam">Padrão</span>
-        <button class="botao-hamburguer"><img id="image2" src="imagens/full.png" alt="" width="20px"></button>
+        <button class="botao-hamburguer"><img id="image2" src="imagens/full.png" width="20px"></button>
       </section>
       <section class="result">
-        <p id="calculo" class="resultado"></p>
-        <p id="visor" class="resultado"></p>
+        <p id="calculo"></p>
+        <p id="visor"></p>
       </section>
       <section class="buttons">
-        <button class="buttons-one">MC</button>
-        <button class="buttons-one">MR</button>
-        <button class="buttons-one-click">M+</button>
-        <button class="buttons-one-click">M-</button>
-        <button class="buttons-one-click">MS</button>
+        <button class="buttons-one" onclick="limparMemoria()">MC</button>
+        <button class="buttons-one" onclick="recuperarMemoria()">MR</button>
+        <button class="buttons-one-click" onclick= "somarMemoria()">M+</button>
+        <button class="buttons-one-click" onclick="subtrairMemoria()">M-</button>
+        <button class="buttons-one-click" onclick="adicionarMemoria()">MS</button>
       </section>
       <div class="botoes">
         <button onclick="botaoPorcentagem()" class="buttons-two-color">%</button>
@@ -71,12 +72,17 @@
       </div>
     </div>
     <div class="historic">
+      <div></div>
       <section>
         <button id="hist" onclick="mostrarHistorico()" class="historico bottom">Histórico</button>
-        <button id="memo" class="memoria bottom">Memória</button>
+        <button id="memo" class="memoria bottom" onclick="mostrarMemoria()">Memória</button>
       </section>
       <section id="historico" class="sessao-historico"></section>
     </div>
+    <div class="lixeira">
+      <button class="botao-lixeira" onclick="deletar()"><img src="imagens/trash.png"></button>
+    </div>
   </main>
+</div>
 </body>
 </html>
