@@ -38,8 +38,8 @@
         <p id="visor"></p>
       </section>
       <section class="buttons">
-        <button class="buttons-one" onclick="limparMemoria()">MC</button>
-        <button class="buttons-one" onclick="recuperarMemoria()">MR</button>
+        <button class="buttons-one-click" onclick="deletarMemoria()">MC</button>
+        <button class="buttons-one-click" onclick="recuperarMemoria()">MR</button>
         <button class="buttons-one-click" onclick= "somarMemoria()">M+</button>
         <button class="buttons-one-click" onclick="subtrairMemoria()">M-</button>
         <button class="buttons-one-click" onclick="adicionarMemoria()">MS</button>
@@ -72,15 +72,16 @@
       </div>
     </div>
     <div class="historic">
-      <div></div>
+      <div>
       <section>
         <button id="hist" onclick="mostrarHistorico()" class="historico bottom">Histórico</button>
         <button id="memo" class="memoria bottom" onclick="mostrarMemoria()">Memória</button>
       </section>
       <section id="historico" class="sessao-historico"></section>
+      <section id="memoria" class="sessao-historico"></section>
     </div>
     <div class="lixeira">
-      <button class="botao-lixeira" onclick="deletar()"><img src="imagens/trash.png"></button>
+      <button class="botao-lixeira" onclick="qualRetorna()"><img src="imagens/trash.png"></button>
     </div>
   </main>
 </div>
