@@ -5,6 +5,7 @@ let memoria = 0;
 let contexto;
 let adicionou = false;
 
+
 function botaoSomar() {
   visorToCalculo("+");
 
@@ -114,26 +115,23 @@ function imprimir(x) {
   let conteudoCalculo = calculo.textContent;
 
   const regex = /^\d{0,15}$/;
-    if (adicionou) {
-      visor.innerHTML = "";
-      conteudoVisor = "";
-      calculo.innerHTML= "";
-      adicionou = false;
-    }
-    
+  if (adicionou) {
+    visor.innerHTML = "";
+    conteudoVisor = "";
+    calculo.innerHTML = "";
+    adicionou = false;
+  }
 
-    if (regex.test(conteudoVisor)) {
+  if (regex.test(conteudoVisor)) {
     if (calculou) {
       conteudoVisor = x.toString();
       calculou = false;
     } else {
       conteudoVisor += x.toString();
+    }
 
-    } 
-    
     visor.innerHTML = conteudoVisor;
-  } 
-  
+  }
 }
 
 function visorToCalculo(simbolo) {
@@ -307,12 +305,17 @@ function historico() {
 
 function mostrarHistorico() {
   contexto = "h";
+  let bottomHist = document.getElementById('hist');
+  let bottomMemo = document.getElementById('memo');
+
+  bottomHist.style.borderBottom = "4px solid blue";
+  bottomMemo.style.borderBottom = "";
+
   let mostrar = document.getElementById('historico');
   let ocultar = document.getElementById('memoria');
 
   mostrar.style.display = 'block';
   ocultar.style.display = 'none';
-
 }
 
 function mostrarMemoria() {
@@ -323,6 +326,12 @@ function mostrarMemoria() {
 
   mostrar.style.display = 'block';
   ocultar.style.display = 'none';
+
+  let bottomHist = document.getElementById('hist');
+  let bottomMemo = document.getElementById('memo');
+
+  bottomHist.style.borderBottom = "";
+  bottomMemo.style.borderBottom = "4px solid blue";
 }
 
 function somarMemoria() {
@@ -377,7 +386,7 @@ function qualRetorna() {
   }
 }
 
-function recuperarMemoria() { 
+function recuperarMemoria() {
   let visor = document.getElementById('visor');
   let ultimaMemoria = document.getElementById('memoria').firstChild;
 
@@ -396,10 +405,6 @@ function adicionarMemoria() {
   somar.textContent = visor.textContent;
   span.insertBefore(somar, span.firstChild);
 }
-
-
-
-
 
 
 
