@@ -167,18 +167,17 @@ function ce() {
 function c() {
   ce();
   document.getElementById('calculo').innerText = "";
+  idCalculo = undefined;
+  idCalculoAnterior = undefined;
 }
 
 function igual() {
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
-  let numeroCalculo = parseInt(conteudoCalculo);
-
+  let numeroCalculo = parseFloat(conteudoCalculo);
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-
-  conteudoVisor *= 1;
-
+  let numeroVisor = parseFloat(conteudoVisor);
   let resultado;
 
   switch (idCalculo) {
@@ -187,47 +186,55 @@ function igual() {
       break;
 
     case 1:
-      resultado = somar(numeroCalculo, conteudoVisor);
+      resultado = somar(numeroCalculo, numeroVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     case 2:
-      resultado = subtrair(numeroCalculo, conteudoVisor);
+      resultado = subtrair(numeroCalculo, numeroVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     case 3:
-      resultado = multiplicar(numeroCalculo, conteudoVisor);
+      resultado = multiplicar(numeroCalculo, numeroVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     case 4:
-      resultado = dividir(numeroCalculo, conteudoVisor);
+      resultado = dividir(numeroCalculo, numeroVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     default:
+      resultado = conteudoVisor;
       break;
   }
 
   idCalculo = 0;
 
-
-
   let vetor = conteudoCalculo.split(" ");
 
-  if (vetor.length > 2) {
-    document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
+  if (!vetor.includes("=")) {
+    if (vetor.length > 2) {
+      document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
+    } else {
+      document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+    }
+    document.getElementById('visor').innerText = resultado;
   } else {
-    document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+    if (vetor.length > 3) {
+      document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[(vetor.length - 2)] + " " + vetor[(vetor.length - 1)];
+    } else {
+      document.getElementById('calculo').innerText = conteudoCalculo;
+    }
+    document.getElementById('visor').innerText = resultado;
   }
-
-  document.getElementById('visor').innerText = resultado;
-
   historico();
 }
 
 function recalculo(x) {
+
+
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
   let vetor = conteudoCalculo.split(" ");
@@ -239,26 +246,32 @@ function recalculo(x) {
     numero *= 1;
   }
 
+
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  conteudoVisor *= 1;
+  if (x != undefined) {
 
-  switch (x) {
-    case 1:
-      return somar(numero, conteudoVisor);
+    conteudoVisor *= 1;
 
-    case 2:
-      return subtrair(numero, conteudoVisor);
+    switch (x) {
+      case 1:
+        return somar(numero, conteudoVisor);
 
-    case 3:
-      return multiplicar(numero, conteudoVisor);
+      case 2:
+        return subtrair(numero, conteudoVisor);
 
-    case 4:
-      return dividir(numero, conteudoVisor);
+      case 3:
+        return multiplicar(numero, conteudoVisor);
 
-    default:
-      break;
+      case 4:
+        return dividir(numero, conteudoVisor);
+
+      default:
+        break;
+    }
+  } else {
+    return conteudoVisor;
   }
 }
 
@@ -293,14 +306,13 @@ function historico() {
   let span = document.getElementById('historico');
   let novoHistorico = document.createElement('div');
   let br = document.createElement('br');
-  novoHistorico.id = "nova-div"
+  novoHistorico.id = "nova-div";
 
   novoHistorico.appendChild(document.createTextNode(conteudoCalculo));
   novoHistorico.appendChild(br);
   novoHistorico.appendChild(document.createTextNode(conteudoVisor));
 
   span.insertBefore(novoHistorico, span.firstChild);
-
 }
 
 function mostrarHistorico() {
@@ -405,10 +417,3 @@ function adicionarMemoria() {
   somar.textContent = visor.textContent;
   span.insertBefore(somar, span.firstChild);
 }
-
-
-
-
-
-
-
