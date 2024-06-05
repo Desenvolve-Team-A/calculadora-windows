@@ -118,8 +118,15 @@ function imprimir(x) {
   let visor = document.getElementById('visor');
   let calculo = document.getElementById('calculo');
   let conteudoVisor = visor.textContent;
+  let regex1 = /^\d{0,15}$/;
+  let entradaSemPontuacao = conteudoVisor;
 
-  const regex = /^\d{0,15}$/;
+
+  if (conteudoVisor.includes(",") || conteudoVisor.includes(".")) {
+    entradaSemPontuacao = conteudoVisor.replace(/[.,]/g, '');
+  }
+
+
   if (adicionou) {
     visor.innerHTML = "";
     conteudoVisor = "";
@@ -131,7 +138,7 @@ function imprimir(x) {
     conteudoVisor = "";
   }
 
-  if (regex.test(conteudoVisor)) {
+  if (regex1.test(entradaSemPontuacao)) {
     if (calculou) {
       conteudoVisor = x.toString();
       calculou = false;
@@ -188,10 +195,16 @@ function c() {
 function igual() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
+  if (conteudoVisor.includes(",")) {
+    conteudoVisor = conteudoVisor.replace(",", ".");
+  }
   let numeroVisor = parseFloat(conteudoVisor);
   let resultado;
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
+  if (conteudoCalculo.includes(",")) {
+    conteudoCalculo = conteudoCalculo.replace(",", ".");
+  }
   let numeroCalculo = parseFloat(conteudoCalculo);
 
   if (conteudoVisor == "Resultado indefinido" || conteudoVisor == "Não é possível dividir por zero") {
@@ -236,7 +249,36 @@ function igual() {
         conteudoCalculo = ultimoCalculoRealizado;
       }
     }
+
+    let qtdDeCasasDepoisDaVirgula = 0;
     let vetor = conteudoCalculo.split(" ");
+
+    if (conteudoVisor.includes(".")) {
+      let vetorSemEspaco = conteudoVisor.split(" ")
+      let vetorDecimal = vetorSemEspaco[0].split(".");
+      if (qtdDeCasasDepoisDaVirgula < vetorDecimal[1].length) {
+        qtdDeCasasDepoisDaVirgula = vetorDecimal[1].length;
+      }
+      conteudoVisor = conteudoVisor.replace(".", ",");
+    }
+
+    if (conteudoCalculo.includes(".")) {
+      let vetorSemEspaco = conteudoCalculo.split(" ")
+      let vetorDecimal = vetorSemEspaco[0].split(".");
+      if (qtdDeCasasDepoisDaVirgula < vetorDecimal[1].length) {
+        qtdDeCasasDepoisDaVirgula = vetorDecimal[1].length;
+      }
+      conteudoCalculo = conteudoCalculo.replace(".", ",");
+    }
+    if (conteudoVisor.includes(",") || conteudoCalculo.includes(",")) {
+      resultado = resultado.toFixed(qtdDeCasasDepoisDaVirgula);
+    }
+
+    resultado = resultado.toString();
+    if (resultado.includes(".")) {
+      resultado = resultado.replace(".", ",");
+    }
+
 
     if (!vetor.includes("=")) {
       if (vetor.length > 2) {
@@ -254,6 +296,7 @@ function igual() {
       document.getElementById('visor').innerText = resultado;
     }
   }
+
   if (resultado != "Resultado indefinido" && resultado != "Não é possível dividir por zero") {
     historico();
   }
@@ -279,7 +322,6 @@ function recalculo(x) {
   } else {
     numero *= 1;
   }
-
 
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
@@ -312,7 +354,10 @@ function recalculo(x) {
 function inverteSinal() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  let numeroVisor = parseInt(conteudoVisor);
+  if (conteudoVisor.includes(",")) {
+    conteudoVisor = conteudoVisor.replace(",", ".");
+  }
+  let numeroVisor = parseFloat(conteudoVisor);
 
   numeroVisor *= -1;
 
@@ -322,9 +367,12 @@ function inverteSinal() {
 function insereVirgula() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  let numeroVisor = parseFloat(conteudoVisor);
+  if (!conteudoVisor.includes(",")) {
+    document.getElementById('visor').innerText = conteudoVisor + ",";
+  }
 
-  document.getElementById('visor').innerText = numeroVisor + ",";
+
+
 }
 
 
@@ -382,6 +430,10 @@ function mostrarMemoria() {
 
 function somarMemoria() {
   let visor = document.getElementById('visor');
+  let conteudoVisor = visor.textContent;
+  if (conteudoVisor.includes(",")) {
+    conteudoVisor = conteudoVisor.replace(",", ".");
+  }
   let valorAtual = parseFloat(visor.innerText);
 
   let span = document.getElementById('memoria');
@@ -397,6 +449,9 @@ function somarMemoria() {
 
     span.insertBefore(somar, span.firstChild);
   } else {
+    if (ultimaMemoria.includes(",")) {
+      ultimaMemoria = ultimaMemoria.replace(",", ".");
+    }
     let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
     ultimaMemoria.textContent = valorUltimaMemoria + valorAtual;
   }
@@ -404,12 +459,18 @@ function somarMemoria() {
 
 function subtrairMemoria() {
   let visor = document.getElementById('visor');
+  let conteudoVisor = visor.textContent;
+  if (conteudoVisor.includes(",")) {
+    conteudoVisor = conteudoVisor.replace(",", ".");
+  }
   let valorAtual = parseFloat(visor.innerText);
 
 
   let span = document.getElementById('memoria');
   let ultimaMemoria = span.firstChild;
-
+  if (ultimaMemoria.includes(",")) {
+    ultimaMemoria = ultimaMemoria.replace(",", ".");
+  }
   let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
 
   ultimaMemoria.textContent = valorUltimaMemoria - valorAtual;
