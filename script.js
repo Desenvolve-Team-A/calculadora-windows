@@ -27,8 +27,9 @@ function botaoSubtrair() {
 function subtrair(x, y) {
   if (x < 0 && y < 0) {
     return x + y;
+  } else if (x < 0 && y > 0) {
+    return y + x;
   }
-
   return x - y;
 }
 
@@ -51,8 +52,13 @@ function botaoDividir() {
 }
 
 function dividir(a, b) {
-  visorToCalculo("/");
-
+  if (a == 0 && b == 0) {
+    idCalculo = undefined;
+    return "Resultado indefinido";
+  } else if (a != 0 && b == 0) {
+    idCalculo = undefined;
+    return "Não é possível dividir por zero";
+  }
   return a / b;
 }
 
@@ -112,7 +118,6 @@ function imprimir(x) {
   let visor = document.getElementById('visor');
   let calculo = document.getElementById('calculo');
   let conteudoVisor = visor.textContent;
-  let conteudoCalculo = calculo.textContent;
 
   const regex = /^\d{0,15}$/;
   if (adicionou) {
@@ -122,6 +127,10 @@ function imprimir(x) {
     adicionou = false;
   }
 
+  if (conteudoVisor == "0") {
+    conteudoVisor = "";
+  }
+
   if (regex.test(conteudoVisor)) {
     if (calculou) {
       conteudoVisor = x.toString();
@@ -129,7 +138,6 @@ function imprimir(x) {
     } else {
       conteudoVisor += x.toString();
     }
-
     visor.innerHTML = conteudoVisor;
   }
 }
@@ -147,21 +155,27 @@ function backspace() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  let vetorInicial = conteudoVisor.split('');
+  if (conteudoVisor != "0") {
+    let vetorInicial = conteudoVisor.split('');
 
-  let vetorFinal = [];
+    let vetorFinal = [];
 
-  for (let i = 0; i < (vetorInicial.length - 1); i++) {
-    vetorFinal[i] = vetorInicial[i];
+    for (let i = 0; i < (vetorInicial.length - 1); i++) {
+      vetorFinal[i] = vetorInicial[i];
+    }
+
+    let stringFinal = vetorFinal.join('');
+
+    document.getElementById('visor').innerText = stringFinal;
+    if (conteudoVisor.length == 1) {
+      visor.textContent = "0";
+    }
   }
 
-  let stringFinal = vetorFinal.join('');
-
-  document.getElementById('visor').innerText = stringFinal;
 }
 
 function ce() {
-  document.getElementById('visor').innerText = "";
+  document.getElementById('visor').innerText = "0";
 }
 
 function c() {
@@ -172,13 +186,17 @@ function c() {
 }
 
 function igual() {
-  let calculo = document.getElementById('calculo');
-  let conteudoCalculo = calculo.textContent;
-  let numeroCalculo = parseFloat(conteudoCalculo);
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
   let numeroVisor = parseFloat(conteudoVisor);
   let resultado;
+  let calculo = document.getElementById('calculo');
+  let conteudoCalculo = calculo.textContent;
+  let numeroCalculo = parseFloat(conteudoCalculo);
+
+  if (conteudoVisor == "Resultado indefinido" || conteudoVisor == "Não é possível dividir por zero") {
+    c();
+  }
 
   switch (idCalculo) {
     case 0:
@@ -211,32 +229,48 @@ function igual() {
   }
 
   idCalculo = 0;
-
-  let vetor = conteudoCalculo.split(" ");
-
-  if (!vetor.includes("=")) {
-    if (vetor.length > 2) {
-      document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
-    } else {
-      document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+  if (conteudoVisor != "Resultado indefinido" && conteudoVisor != "Não é possível dividir por zero") {
+    if (conteudoCalculo == '') {
+      let ultimoCalculoRealizado = document.getElementById("historico").firstChild.textContent;
+      if (ultimoCalculoRealizado != null) {
+        conteudoCalculo = ultimoCalculoRealizado;
+      }
     }
-    document.getElementById('visor').innerText = resultado;
-  } else {
-    if (vetor.length > 3) {
-      document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[(vetor.length - 2)] + " " + vetor[(vetor.length - 1)];
+    let vetor = conteudoCalculo.split(" ");
+
+    if (!vetor.includes("=")) {
+      if (vetor.length > 2) {
+        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
+      } else {
+        document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
+      }
+      document.getElementById('visor').innerText = resultado;
     } else {
-      document.getElementById('calculo').innerText = conteudoCalculo;
+      if (vetor.length > 3) {
+        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[(vetor.length - 2)] + " " + vetor[(vetor.length - 1)];
+      } else {
+        document.getElementById('calculo').innerText = conteudoCalculo;
+      }
+      document.getElementById('visor').innerText = resultado;
     }
-    document.getElementById('visor').innerText = resultado;
   }
-  historico();
+  if (resultado != "Resultado indefinido" && resultado != "Não é possível dividir por zero") {
+    historico();
+  }
+
 }
 
 function recalculo(x) {
-
-
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
+
+  if (conteudoCalculo == '') {
+    let ultimoCalculoRealizado = document.getElementById("historico").firstChild.textContent;
+    if (ultimoCalculoRealizado != null) {
+      conteudoCalculo = ultimoCalculoRealizado;
+    }
+  }
+
   let vetor = conteudoCalculo.split(" ");
   let numero = vetor[2];
 
