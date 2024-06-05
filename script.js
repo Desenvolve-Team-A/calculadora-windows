@@ -230,7 +230,7 @@ function igual() {
 
   idCalculo = 0;
   if (conteudoVisor != "Resultado indefinido" && conteudoVisor != "Não é possível dividir por zero") {
-    if (conteudoCalculo == '') {
+    if (conteudoCalculo == '' && idCalculoAnterior != undefined) {
       let ultimoCalculoRealizado = document.getElementById("historico").firstChild.textContent;
       if (ultimoCalculoRealizado != null) {
         conteudoCalculo = ultimoCalculoRealizado;
@@ -264,7 +264,7 @@ function recalculo(x) {
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
 
-  if (conteudoCalculo == '') {
+  if (conteudoCalculo == '' && idCalculoAnterior != undefined) {
     let ultimoCalculoRealizado = document.getElementById("historico").firstChild.textContent;
     if (ultimoCalculoRealizado != null) {
       conteudoCalculo = ultimoCalculoRealizado;
