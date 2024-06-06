@@ -262,6 +262,12 @@ function igual() {
       conteudoVisor = conteudoVisor.replace(".", ",");
     }
 
+    for (let index = 0; index <= 3; index++) {
+      if (conteudoCalculo.includes(",")) {
+        conteudoCalculo = conteudoCalculo.replace(",", ".");
+      }
+    }
+
     if (conteudoCalculo.includes(".")) {
       let vetorSemEspaco = conteudoCalculo.split(" ")
       let vetorDecimal = vetorSemEspaco[0].split(".");
@@ -315,6 +321,12 @@ function recalculo(x) {
   }
 
   let vetor = conteudoCalculo.split(" ");
+
+  for (let index = 0; index <= 2; index++) {
+    if (vetor[index].includes(",")) {
+      vetor[index] = vetor[index].replace(",", ".");
+    }
+  }
   let numero = vetor[2];
 
   if (vetor[1] == "-") {
@@ -325,6 +337,9 @@ function recalculo(x) {
 
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
+  if (conteudoVisor.includes(",")) {
+    conteudoVisor = conteudoVisor.replace(",", ".");
+  }
 
   if (x != undefined) {
 
