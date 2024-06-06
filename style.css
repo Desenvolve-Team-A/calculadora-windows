@@ -212,14 +212,18 @@ main {
 #nova-div {
   display: flex;
   margin-top: 10px;
-  justify-content: right;
+  justify-content: end;
   padding: 10px;
 }
 
 
 #nova-div:hover {
-  background-color: rgba(229, 229, 229, 0.315);
+  background-color: rgba(206, 206, 206, 0.315);
 
+}
+
+#nova-div strong {
+  font-size: 23px;
 }
 
 #historico,
@@ -230,6 +234,7 @@ main {
 
 #memoria {
   display: none;
+  font-size: 23px;
 }
 
 #hist {

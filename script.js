@@ -63,21 +63,23 @@ function dividir(a, b) {
 }
 
 function potencia() {
+
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  document.getElementById('calculo').innerText = "sqr(" + conteudoVisor + ")";
+  document.getElementById('calculo').innerText = "sqr(" + conteudoVisor + ") =";
 
   conteudoVisor *= 1;
 
   document.getElementById('visor').innerText = conteudoVisor * conteudoVisor;
+
 }
 
 function raiz() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  document.getElementById('calculo').innerText = "√(" + conteudoVisor + ")";
+  document.getElementById('calculo').innerText = "√(" + conteudoVisor + ") = ";
 
   conteudoVisor *= 1;
 
@@ -88,7 +90,7 @@ function fracao() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  document.getElementById('calculo').innerText = "1/(" + conteudoVisor + ")";
+  document.getElementById('calculo').innerText = "1/(" + conteudoVisor + ") =";
 
   conteudoVisor *= 1;
 
@@ -236,6 +238,10 @@ function igual() {
       idCalculoAnterior = idCalculo;
       break;
 
+    case 5:
+
+      break;
+
     default:
       resultado = conteudoVisor;
       break;
@@ -276,7 +282,7 @@ function igual() {
       }
       conteudoCalculo = conteudoCalculo.replace(".", ",");
     }
-    if (conteudoVisor.includes(",") || conteudoCalculo.includes(",")) {
+    if (typeof resultado === 'number' && conteudoVisor.includes(",") || conteudoCalculo.includes(",")) {
       resultado = resultado.toFixed(qtdDeCasasDepoisDaVirgula);
     }
 
@@ -323,7 +329,7 @@ function recalculo(x) {
   let vetor = conteudoCalculo.split(" ");
 
   for (let index = 0; index <= 2; index++) {
-    if (vetor[index].includes(",")) {
+    if (typeof vetor[index] === 'string' && vetor[index].includes(",")) {
       vetor[index] = vetor[index].replace(",", ".");
     }
   }
@@ -385,9 +391,6 @@ function insereVirgula() {
   if (!conteudoVisor.includes(",")) {
     document.getElementById('visor').innerText = conteudoVisor + ",";
   }
-
-
-
 }
 
 
@@ -403,11 +406,14 @@ function historico() {
   let span = document.getElementById('historico');
   let novoHistorico = document.createElement('div');
   let br = document.createElement('br');
+  let visorNegrito = document.createElement('strong');
   novoHistorico.id = "nova-div";
 
+
   novoHistorico.appendChild(document.createTextNode(conteudoCalculo));
-  novoHistorico.appendChild(br);
-  novoHistorico.appendChild(document.createTextNode(conteudoVisor));
+  visorNegrito.appendChild(br);
+  visorNegrito.appendChild(document.createTextNode(conteudoVisor));
+  novoHistorico.appendChild(visorNegrito);
 
   span.insertBefore(novoHistorico, span.firstChild);
 }
@@ -449,22 +455,23 @@ function somarMemoria() {
   if (conteudoVisor.includes(",")) {
     conteudoVisor = conteudoVisor.replace(",", ".");
   }
-  let valorAtual = parseFloat(visor.innerText);
 
+  let valorAtual = parseFloat(visor.innerText);
   let span = document.getElementById('memoria');
   let ultimaMemoria = span.firstChild;
 
 
   if (ultimaMemoria == null) {
-    let somar = document.createElement('div');
+    let somar = document.createElement('strong');
     somar.id = 'nova-div';
 
     somar.textContent = valorAtual + memoria;
     memoria += valorAtual;
 
     span.insertBefore(somar, span.firstChild);
+
   } else {
-    if (ultimaMemoria.includes(",")) {
+    if ("," in ultimaMemoria) {
       ultimaMemoria = ultimaMemoria.replace(",", ".");
     }
     let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
@@ -478,17 +485,27 @@ function subtrairMemoria() {
   if (conteudoVisor.includes(",")) {
     conteudoVisor = conteudoVisor.replace(",", ".");
   }
+
   let valorAtual = parseFloat(visor.innerText);
-
-
   let span = document.getElementById('memoria');
   let ultimaMemoria = span.firstChild;
-  if (ultimaMemoria.includes(",")) {
-    ultimaMemoria = ultimaMemoria.replace(",", ".");
-  }
-  let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
 
-  ultimaMemoria.textContent = valorUltimaMemoria - valorAtual;
+  if (ultimaMemoria == null) {
+    let substrair = document.createElement('strong');
+    substrair.id = 'nova-div';
+
+    substrair.textContent = memoria - valorAtual;
+    memoria -= valorAtual;
+
+    span.insertBefore(substrair, span.firstChild);
+  } else {
+    if ("," in ultimaMemoria) {
+      ultimaMemoria = ultimaMemoria.replace(",", ".");
+    }
+    let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
+
+    ultimaMemoria.textContent = valorUltimaMemoria - valorAtual;
+  }
 }
 
 function deletarHistorico() {
@@ -519,9 +536,8 @@ function adicionarMemoria() {
   let visor = document.getElementById('visor');
 
   let span = document.getElementById('memoria');
-  let ultimaMemoria = span.firstChild;
+  let somar = document.createElement('strong');
 
-  let somar = document.createElement('div');
   somar.id = 'nova-div';
 
   somar.textContent = visor.textContent;
