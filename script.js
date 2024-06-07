@@ -12,6 +12,7 @@ function botaoSomar() {
 
   calculou = true;
   adicionou = false;
+  porcetagemDivisãoMultiplicacao = false;
   idCalculo = 1;
 }
 
@@ -24,18 +25,16 @@ function botaoSubtrair() {
 
   calculou = true;
   adicionou = false;
+  porcetagemDivisãoMultiplicacao = false;
   idCalculo = 2;
 }
 
 function subtrair(x, y) {
-  if (x < 0 && y < 0 && boolRecalculo) {
-    return x + y;
-  } else if (x > 0 && y > 0 && boolRecalculo) {
+  if ((x < 0 && y < 0 && boolRecalculo) || (x > 0 && y > 0 && boolRecalculo) || (x < 0 && y > 0 && boolRecalculo)) {
     return x + y;
   } else if (x < 0 && y > 0) {
     return x - y;
   }
-
   return x - y;
 }
 
@@ -62,7 +61,6 @@ function botaoDividir() {
 }
 
 function dividir(a, b) {
-
   if (a == 0 && b == 0) {
     idCalculo = undefined;
     return "Resultado indefinido";
@@ -78,11 +76,8 @@ function potencia() {
   let conteudoVisor = visor.textContent;
 
   document.getElementById('calculo').innerText = "sqr(" + conteudoVisor + ") = ";
-
   conteudoVisor *= 1;
-
-  document.getElementById('visor').innerText = conteudoVisor * conteudoVisor;
-
+  visor.innerText = conteudoVisor * conteudoVisor;
   historico();
   calculou = true;
 }
@@ -92,13 +87,12 @@ function raiz() {
   let conteudoVisor = visor.textContent;
 
   document.getElementById('calculo').innerText = "(" + conteudoVisor + ") = ";
-
   conteudoVisor *= 1;
 
   if (conteudoVisor < 0) {
-    return document.getElementById('visor').innerText = "Entrada inválida";
+    return visor.innerText = "Entrada inválida";
   } else {
-    document.getElementById('visor').innerText = Math.sqrt(conteudoVisor);
+    visor.innerText = Math.sqrt(conteudoVisor);
   }
 
   historico();
@@ -110,10 +104,8 @@ function fracao() {
   let conteudoVisor = visor.textContent;
 
   document.getElementById('calculo').innerText = "1/(" + conteudoVisor + ") = ";
-
   conteudoVisor *= 1;
-
-  document.getElementById('visor').innerText = 1 / conteudoVisor;
+  visor.innerText = 1 / conteudoVisor;
 
   historico();
   calculou = true;
@@ -130,8 +122,8 @@ function botaoPorcentagem() {
 
   let resultado = porcentagem(vetor[0], conteudoVisor);
 
-  document.getElementById('calculo').innerText = conteudoCalculo + " " + resultado;
-  document.getElementById('visor').innerText = resultado;
+  calculo.innerText = conteudoCalculo + " " + resultado;
+  visor.innerText = resultado;
 }
 
 function porcentagem(x, y) {
@@ -140,7 +132,6 @@ function porcentagem(x, y) {
   } else {
     return (x * (y / 100));
   }
-
 }
 
 function imprimir(x) {
@@ -180,9 +171,7 @@ function visorToCalculo(simbolo) {
 function backspace() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-
   let vetorInicial = conteudoVisor.split('');
-
   let vetorFinal = [];
 
   for (let i = 0; i < (vetorInicial.length - 1); i++) {
@@ -190,8 +179,7 @@ function backspace() {
   }
 
   let stringFinal = vetorFinal.join('');
-
-  document.getElementById('visor').innerText = stringFinal;
+  visor.innerText = stringFinal;
 }
 
 function ce() {
@@ -329,7 +317,7 @@ function inverteSinal() {
 
   numeroVisor *= -1;
 
-  document.getElementById('visor').innerText = numeroVisor;
+  visor.innerText = numeroVisor;
 }
 
 function insereVirgula() {
@@ -337,7 +325,7 @@ function insereVirgula() {
   let conteudoVisor = visor.textContent;
   let numeroVisor = parseFloat(conteudoVisor);
 
-  document.getElementById('visor').innerText = numeroVisor + ".";
+  visor.innerText = numeroVisor + ".";
 }
 
 function historico() {
@@ -383,7 +371,6 @@ function mostrarMemoria() {
   let mostrar = document.getElementById('memoria');
   let ocultar = document.getElementById('historico');
 
-
   mostrar.style.display = 'block';
   ocultar.style.display = 'none';
 
@@ -409,9 +396,7 @@ function somarMemoria() {
 
     somar.textContent = valorAtual + memoria;
     memoria += valorAtual;
-
     span.insertBefore(somar, span.firstChild);
-
   } else {
     let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
     ultimaMemoria.textContent = valorUltimaMemoria + valorAtual;
@@ -429,13 +414,11 @@ function subtrairMemoria() {
   if (ultimaMemoria == null) {
     let substrair = document.createElement('strong');
     substrair.id = 'nova-div';
-
     substrair.textContent = memoria - valorAtual;
     memoria -= valorAtual;
 
     span.insertBefore(substrair, span.firstChild);
   } else {
-
     let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
     ultimaMemoria.textContent = valorUltimaMemoria - valorAtual;
   }
@@ -467,7 +450,6 @@ function recuperarMemoria() {
 
 function adicionarMemoria() {
   let visor = document.getElementById('visor');
-
   let span = document.getElementById('memoria');
   let somar = document.createElement('strong');
 

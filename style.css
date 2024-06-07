@@ -14,8 +14,8 @@ header {
   flex: 1;
   justify-content: space-between;
   margin: 5px 10px 5px 0;
-  height: auto;
   width: auto;
+  height: auto;
 }
 
 .buttons-header,
