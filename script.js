@@ -5,6 +5,7 @@ let memoria = 0;
 let contexto;
 let adicionou = false;
 let boolRecalculo = false;
+let porcetagemDivisãoMultiplicacao = false;
 
 function botaoSomar() {
   visorToCalculo("+");
@@ -15,7 +16,7 @@ function botaoSomar() {
 }
 
 function somar(x, y) {
-  return  x + y;
+  return x + y;
 }
 
 function botaoSubtrair() {
@@ -28,13 +29,13 @@ function botaoSubtrair() {
 
 function subtrair(x, y) {
   if (x < 0 && y < 0 && boolRecalculo) {
-    return  x + y;
+    return x + y;
   } else if (x > 0 && y > 0 && boolRecalculo) {
     return x + y;
   } else if (x < 0 && y > 0) {
-    return x + y;
+    return x - y;
   }
-  
+
   return x - y;
 }
 
@@ -43,11 +44,12 @@ function botaoMultiplicar() {
 
   calculou = true;
   adicionou = false;
+  porcetagemDivisãoMultiplicacao = true;
   idCalculo = 3;
 }
 
 function multiplicar(x, y) {
-  return (x * y).toFixed(5);
+  return x * y;
 }
 
 function botaoDividir() {
@@ -55,6 +57,7 @@ function botaoDividir() {
 
   calculou = true;
   adicionou = false;
+  porcetagemDivisãoMultiplicacao = true;
   idCalculo = 4;
 }
 
@@ -67,7 +70,7 @@ function dividir(a, b) {
     idCalculo = undefined;
     return "Não é possível dividir por zero";
   }
-  return  (a / b).toFixed(5);
+  return Math.round((a / b) * 100) / 100;
 }
 
 function potencia() {
@@ -92,7 +95,11 @@ function raiz() {
 
   conteudoVisor *= 1;
 
-  document.getElementById('visor').innerText = Math.sqrt(conteudoVisor);
+  if (conteudoVisor < 0) {
+    return document.getElementById('visor').innerText = "Entrada inválida";
+  } else {
+    document.getElementById('visor').innerText = Math.sqrt(conteudoVisor);
+  }
 
   historico();
   calculou = true;
@@ -128,7 +135,12 @@ function botaoPorcentagem() {
 }
 
 function porcentagem(x, y) {
-  return (x * (y / 100));
+  if (porcetagemDivisãoMultiplicacao) {
+    return (y / 100);
+  } else {
+    return (x * (y / 100));
+  }
+
 }
 
 function imprimir(x) {
@@ -206,6 +218,10 @@ function igual() {
   switch (idCalculo) {
     case 0:
       resultado = recalculo(idCalculoAnterior);
+      if (resultado == 0) {
+        conteudoCalculo = "";
+        conteudoVisor = "0";
+      }
       break;
 
     case 1:
@@ -253,11 +269,11 @@ function igual() {
     visor.innerText = resultado;
   }
 
-  
+
   if (resultado != "Resultado indefinido" && resultado != "Não é possível dividir por zero") {
     historico();
   }
- 
+
 }
 
 function recalculo(x) {
@@ -274,6 +290,10 @@ function recalculo(x) {
 
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
+
+  if (conteudoVisor == "Resultado indefinido" || conteudoVisor == "Não é possível dividir por zero") {
+    return 0;
+  }
 
   if (x != undefined) {
 
@@ -300,6 +320,7 @@ function recalculo(x) {
     return conteudoVisor;
   }
 }
+
 
 function inverteSinal() {
   let visor = document.getElementById('visor');
@@ -376,9 +397,6 @@ function mostrarMemoria() {
 function somarMemoria() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  if (conteudoVisor.includes(",")) {
-    conteudoVisor = conteudoVisor.replace(",", ".");
-  }
 
   let valorAtual = parseFloat(visor.innerText);
   let span = document.getElementById('memoria');
@@ -395,9 +413,6 @@ function somarMemoria() {
     span.insertBefore(somar, span.firstChild);
 
   } else {
-    if ("," in ultimaMemoria) {
-      ultimaMemoria = ultimaMemoria.replace(",", ".");
-    }
     let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
     ultimaMemoria.textContent = valorUltimaMemoria + valorAtual;
   }
@@ -406,9 +421,6 @@ function somarMemoria() {
 function subtrairMemoria() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  if (conteudoVisor.includes(",")) {
-    conteudoVisor = conteudoVisor.replace(",", ".");
-  }
 
   let valorAtual = parseFloat(visor.innerText);
   let span = document.getElementById('memoria');
@@ -423,11 +435,8 @@ function subtrairMemoria() {
 
     span.insertBefore(substrair, span.firstChild);
   } else {
-    if ("," in ultimaMemoria) {
-      ultimaMemoria = ultimaMemoria.replace(",", ".");
-    }
-    let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
 
+    let valorUltimaMemoria = parseFloat(ultimaMemoria.textContent);
     ultimaMemoria.textContent = valorUltimaMemoria - valorAtual;
   }
 }
