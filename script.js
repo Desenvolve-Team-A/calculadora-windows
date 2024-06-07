@@ -4,32 +4,37 @@ let idCalculoAnterior;
 let memoria = 0;
 let contexto;
 let adicionou = false;
-
+let boolRecalculo = false;
 
 function botaoSomar() {
   visorToCalculo("+");
 
   calculou = true;
+  adicionou = false;
   idCalculo = 1;
 }
 
 function somar(x, y) {
-  return x + y;
+  return  x + y;
 }
 
 function botaoSubtrair() {
   visorToCalculo("-");
 
   calculou = true;
+  adicionou = false;
   idCalculo = 2;
 }
 
 function subtrair(x, y) {
-  if (x < 0 && y < 0) {
+  if (x < 0 && y < 0 && boolRecalculo) {
+    return  x + y;
+  } else if (x > 0 && y > 0 && boolRecalculo) {
     return x + y;
   } else if (x < 0 && y > 0) {
-    return y + x;
+    return x + y;
   }
+  
   return x - y;
 }
 
@@ -37,21 +42,24 @@ function botaoMultiplicar() {
   visorToCalculo("x");
 
   calculou = true;
+  adicionou = false;
   idCalculo = 3;
 }
 
 function multiplicar(x, y) {
-  return x * y;
+  return (x * y).toFixed(5);
 }
 
 function botaoDividir() {
   visorToCalculo("÷");
 
   calculou = true;
+  adicionou = false;
   idCalculo = 4;
 }
 
 function dividir(a, b) {
+
   if (a == 0 && b == 0) {
     idCalculo = undefined;
     return "Resultado indefinido";
@@ -59,42 +67,49 @@ function dividir(a, b) {
     idCalculo = undefined;
     return "Não é possível dividir por zero";
   }
-  return a / b;
+  return  (a / b).toFixed(5);
 }
 
 function potencia() {
-
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  document.getElementById('calculo').innerText = "sqr(" + conteudoVisor + ") =";
+  document.getElementById('calculo').innerText = "sqr(" + conteudoVisor + ") = ";
 
   conteudoVisor *= 1;
 
   document.getElementById('visor').innerText = conteudoVisor * conteudoVisor;
 
+  historico();
+  calculou = true;
 }
 
 function raiz() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  document.getElementById('calculo').innerText = "√(" + conteudoVisor + ") = ";
+  document.getElementById('calculo').innerText = "(" + conteudoVisor + ") = ";
 
   conteudoVisor *= 1;
 
   document.getElementById('visor').innerText = Math.sqrt(conteudoVisor);
+
+  historico();
+  calculou = true;
 }
 
 function fracao() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  document.getElementById('calculo').innerText = "1/(" + conteudoVisor + ") =";
+  document.getElementById('calculo').innerText = "1/(" + conteudoVisor + ") = ";
 
   conteudoVisor *= 1;
 
   document.getElementById('visor').innerText = 1 / conteudoVisor;
+
+  historico();
+  calculou = true;
 }
 
 function botaoPorcentagem() {
@@ -108,7 +123,7 @@ function botaoPorcentagem() {
 
   let resultado = porcentagem(vetor[0], conteudoVisor);
 
-  document.getElementById('calculo').innerText = conteudoCalculo + " ";
+  document.getElementById('calculo').innerText = conteudoCalculo + " " + resultado;
   document.getElementById('visor').innerText = resultado;
 }
 
@@ -118,37 +133,27 @@ function porcentagem(x, y) {
 
 function imprimir(x) {
   let visor = document.getElementById('visor');
-  let calculo = document.getElementById('calculo');
   let conteudoVisor = visor.textContent;
-  let regex1 = /^\d{0,15}$/;
-  let entradaSemPontuacao = conteudoVisor;
 
-
-  if (conteudoVisor.includes(",") || conteudoVisor.includes(".")) {
-    entradaSemPontuacao = conteudoVisor.replace(/[.,]/g, '');
+  if (conteudoVisor == "0") {
+    conteudoVisor = "";
   }
-
 
   if (adicionou) {
     visor.innerHTML = "";
     conteudoVisor = "";
     calculo.innerHTML = "";
     adicionou = false;
+    boolRecalculo = false;
   }
 
-  if (conteudoVisor == "0") {
-    conteudoVisor = "";
+  if (calculou) {
+    conteudoVisor = x.toString();
+    calculou = false;
+  } else {
+    conteudoVisor += x.toString();
   }
-
-  if (regex1.test(entradaSemPontuacao)) {
-    if (calculou) {
-      conteudoVisor = x.toString();
-      calculou = false;
-    } else {
-      conteudoVisor += x.toString();
-    }
-    visor.innerHTML = conteudoVisor;
-  }
+  visor.innerText = conteudoVisor;
 }
 
 function visorToCalculo(simbolo) {
@@ -164,23 +169,17 @@ function backspace() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
 
-  if (conteudoVisor != "0") {
-    let vetorInicial = conteudoVisor.split('');
+  let vetorInicial = conteudoVisor.split('');
 
-    let vetorFinal = [];
+  let vetorFinal = [];
 
-    for (let i = 0; i < (vetorInicial.length - 1); i++) {
-      vetorFinal[i] = vetorInicial[i];
-    }
-
-    let stringFinal = vetorFinal.join('');
-
-    document.getElementById('visor').innerText = stringFinal;
-    if (conteudoVisor.length == 1) {
-      visor.textContent = "0";
-    }
+  for (let i = 0; i < (vetorInicial.length - 1); i++) {
+    vetorFinal[i] = vetorInicial[i];
   }
 
+  let stringFinal = vetorFinal.join('');
+
+  document.getElementById('visor').innerText = stringFinal;
 }
 
 function ce() {
@@ -190,28 +189,19 @@ function ce() {
 function c() {
   ce();
   document.getElementById('calculo').innerText = "";
-  idCalculo = undefined;
-  idCalculoAnterior = undefined;
 }
 
 function igual() {
-  let visor = document.getElementById('visor');
-  let conteudoVisor = visor.textContent;
-  if (conteudoVisor.includes(",")) {
-    conteudoVisor = conteudoVisor.replace(",", ".");
-  }
-  let numeroVisor = parseFloat(conteudoVisor);
-  let resultado;
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
-  if (conteudoCalculo.includes(",")) {
-    conteudoCalculo = conteudoCalculo.replace(",", ".");
-  }
   let numeroCalculo = parseFloat(conteudoCalculo);
 
-  if (conteudoVisor == "Resultado indefinido" || conteudoVisor == "Não é possível dividir por zero") {
-    c();
-  }
+  let visor = document.getElementById('visor');
+  let conteudoVisor = visor.textContent;
+
+  conteudoVisor *= 1;
+
+  let resultado;
 
   switch (idCalculo) {
     case 0:
@@ -219,27 +209,23 @@ function igual() {
       break;
 
     case 1:
-      resultado = somar(numeroCalculo, numeroVisor);
+      resultado = somar(numeroCalculo, conteudoVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     case 2:
-      resultado = subtrair(numeroCalculo, numeroVisor);
+      resultado = subtrair(numeroCalculo, conteudoVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     case 3:
-      resultado = multiplicar(numeroCalculo, numeroVisor);
+      resultado = multiplicar(numeroCalculo, conteudoVisor);
       idCalculoAnterior = idCalculo;
       break;
 
     case 4:
-      resultado = dividir(numeroCalculo, numeroVisor);
+      resultado = dividir(numeroCalculo, conteudoVisor);
       idCalculoAnterior = idCalculo;
-      break;
-
-    case 5:
-
       break;
 
     default:
@@ -248,91 +234,36 @@ function igual() {
   }
 
   idCalculo = 0;
-  if (conteudoVisor != "Resultado indefinido" && conteudoVisor != "Não é possível dividir por zero") {
-    if (conteudoCalculo == '' && idCalculoAnterior != undefined) {
-      let ultimoCalculoRealizado = document.getElementById("historico").firstChild.textContent;
-      if (ultimoCalculoRealizado != null) {
-        conteudoCalculo = ultimoCalculoRealizado;
-      }
-    }
 
-    let qtdDeCasasDepoisDaVirgula = 0;
-    let vetor = conteudoCalculo.split(" ");
+  let vetor = conteudoCalculo.split(" ");
 
-    if (conteudoVisor.includes(".")) {
-      let vetorSemEspaco = conteudoVisor.split(" ")
-      let vetorDecimal = vetorSemEspaco[0].split(".");
-      if (qtdDeCasasDepoisDaVirgula < vetorDecimal[1].length) {
-        qtdDeCasasDepoisDaVirgula = vetorDecimal[1].length;
-      }
-      conteudoVisor = conteudoVisor.replace(".", ",");
-    }
-
-    for (let index = 0; index <= 3; index++) {
-      if (conteudoCalculo.includes(",")) {
-        conteudoCalculo = conteudoCalculo.replace(",", ".");
-      }
-    }
-
-    if (conteudoCalculo.includes(".")) {
-      let vetorSemEspaco = conteudoCalculo.split(" ")
-      let vetorDecimal = vetorSemEspaco[0].split(".");
-      if (qtdDeCasasDepoisDaVirgula < vetorDecimal[1].length) {
-        qtdDeCasasDepoisDaVirgula = vetorDecimal[1].length;
-      }
-      conteudoCalculo = conteudoCalculo.replace(".", ",");
-    }
-    if (typeof resultado === 'number' && conteudoVisor.includes(",") || conteudoCalculo.includes(",")) {
-      resultado = resultado.toFixed(qtdDeCasasDepoisDaVirgula);
-    }
-
-    resultado = resultado.toString();
-    if (resultado.includes(".")) {
-      resultado = resultado.replace(".", ",");
-    }
-
-
-    if (!vetor.includes("=")) {
-      if (vetor.length > 2) {
-        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[2] + " =";
-      } else {
-        document.getElementById('calculo').innerText = conteudoCalculo + " " + conteudoVisor + " =";
-      }
-      document.getElementById('visor').innerText = resultado;
+  if (!vetor.includes("=")) {
+    if (vetor.length > 2) {
+      calculo.innerText = vetor[0] + ` ${vetor[1]} ` + vetor[2] + " =";
     } else {
-      if (vetor.length > 3) {
-        document.getElementById('calculo').innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[(vetor.length - 2)] + " " + vetor[(vetor.length - 1)];
-      } else {
-        document.getElementById('calculo').innerText = conteudoCalculo;
-      }
-      document.getElementById('visor').innerText = resultado;
+      calculo.innerText = conteudoCalculo + " " + conteudoVisor + " =";
     }
+    visor.innerText = resultado;
+  } else {
+    if (vetor.length > 3) {
+      calculo.innerText = conteudoVisor + ` ${vetor[1]} ` + vetor[(vetor.length - 2)] + " " + vetor[(vetor.length - 1)];
+    } else {
+      calculo.innerText = conteudoCalculo;
+    }
+    visor.innerText = resultado;
   }
 
+  
   if (resultado != "Resultado indefinido" && resultado != "Não é possível dividir por zero") {
     historico();
   }
-
+ 
 }
 
 function recalculo(x) {
   let calculo = document.getElementById('calculo');
   let conteudoCalculo = calculo.textContent;
-
-  if (conteudoCalculo == '' && idCalculoAnterior != undefined) {
-    let ultimoCalculoRealizado = document.getElementById("historico").firstChild.textContent;
-    if (ultimoCalculoRealizado != null) {
-      conteudoCalculo = ultimoCalculoRealizado;
-    }
-  }
-
   let vetor = conteudoCalculo.split(" ");
-
-  for (let index = 0; index <= 2; index++) {
-    if (typeof vetor[index] === 'string' && vetor[index].includes(",")) {
-      vetor[index] = vetor[index].replace(",", ".");
-    }
-  }
   let numero = vetor[2];
 
   if (vetor[1] == "-") {
@@ -343,9 +274,6 @@ function recalculo(x) {
 
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  if (conteudoVisor.includes(",")) {
-    conteudoVisor = conteudoVisor.replace(",", ".");
-  }
 
   if (x != undefined) {
 
@@ -356,13 +284,14 @@ function recalculo(x) {
         return somar(numero, conteudoVisor);
 
       case 2:
+        boolRecalculo = true;
         return subtrair(numero, conteudoVisor);
 
       case 3:
         return multiplicar(numero, conteudoVisor);
 
       case 4:
-        return dividir(numero, conteudoVisor);
+        return dividir(conteudoVisor, numero);
 
       default:
         break;
@@ -375,9 +304,6 @@ function recalculo(x) {
 function inverteSinal() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  if (conteudoVisor.includes(",")) {
-    conteudoVisor = conteudoVisor.replace(",", ".");
-  }
   let numeroVisor = parseFloat(conteudoVisor);
 
   numeroVisor *= -1;
@@ -388,11 +314,10 @@ function inverteSinal() {
 function insereVirgula() {
   let visor = document.getElementById('visor');
   let conteudoVisor = visor.textContent;
-  if (!conteudoVisor.includes(",")) {
-    document.getElementById('visor').innerText = conteudoVisor + ",";
-  }
-}
+  let numeroVisor = parseFloat(conteudoVisor);
 
+  document.getElementById('visor').innerText = numeroVisor + ".";
+}
 
 function historico() {
   mostrarHistorico();
@@ -408,7 +333,6 @@ function historico() {
   let br = document.createElement('br');
   let visorNegrito = document.createElement('strong');
   novoHistorico.id = "nova-div";
-
 
   novoHistorico.appendChild(document.createTextNode(conteudoCalculo));
   visorNegrito.appendChild(br);
@@ -540,6 +464,6 @@ function adicionarMemoria() {
 
   somar.id = 'nova-div';
 
-  somar.textContent = visor.textContent;
+  somar.textContent = visor.innerText;
   span.insertBefore(somar, span.firstChild);
 }
